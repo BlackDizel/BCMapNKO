@@ -1,0 +1,1 @@
+add your own Google Maps Key to String values with key "google_maps_key"
