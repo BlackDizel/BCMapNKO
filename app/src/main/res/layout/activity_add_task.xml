@@ -11,17 +11,19 @@
     tools:context="ru.byters.bcmapnko.ActivityAddTask">
 
     <EditText
+        android:id="@+id/tvTitle"
         android:hint="@string/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <EditText
+        android:id="@+id/tvDescription"
         android:hint="@string/description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <Button
-        android:id="@+id/bSelectLocation"
+        android:id="@+id/btSelectLocation"
         android:text="@string/select_location"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
