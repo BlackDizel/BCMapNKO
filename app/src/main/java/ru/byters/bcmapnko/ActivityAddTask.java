@@ -24,7 +24,7 @@ public class ActivityAddTask extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
 
-        tvLocation = (TextView) findViewById(R.id.bSelectLocation);
+        tvLocation = (TextView) findViewById(R.id.btSelectLocation);
         tvTitle = (TextView) findViewById(R.id.tvTitle);
         tvDescription = (TextView) findViewById(R.id.tvDescription);
 
@@ -42,7 +42,9 @@ public class ActivityAddTask extends AppCompatActivity implements View.OnClickLi
         int id = item.getItemId();
         if (id == R.id.action_add_task) {
             if (location != null && tvTitle.getText() != null && tvDescription.getText() != null) {
-                LocalData.addData(new Task(
+                LocalData.addData(
+                        this,
+                        new Task(
                         tvTitle.getText().toString()
                         , tvDescription.getText().toString()
                         , location.latitude
@@ -57,8 +59,7 @@ public class ActivityAddTask extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == RESULT_OK && requestCode == REQUEST_LOCATION) {
+        if (resultCode == RESULT_OK && requestCode == REQUEST_LOCATION) {
             if (data.getExtras() != null && data.getExtras().containsKey(ActivitySelectLocation.INTENT_COORDS))
                 this.location = data.getParcelableExtra(ActivitySelectLocation.INTENT_COORDS);
             if (data.getExtras() != null && data.getExtras().containsKey(ActivitySelectLocation.INTENT_TITLE))
