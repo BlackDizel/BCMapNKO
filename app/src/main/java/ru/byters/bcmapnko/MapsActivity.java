@@ -10,6 +10,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.List;
@@ -17,9 +18,11 @@ import java.util.List;
 import ru.byters.bcmapnko.model.Task;
 import ru.byters.bcmapnko.utils.LocalData;
 
-public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class MapsActivity extends AppCompatActivity
+        implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     private GoogleMap mMap;
+    private List<Task> data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,18 +34,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mapFragment.getMapAsync(this);
     }
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        mMap.setOnMarkerClickListener(this);
         setData();
     }
 
@@ -57,17 +52,19 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         mMap.clear();
 
-        List<Task> data = LocalData.readData(this);
+        data = LocalData.readData(this);
 
         if (data == null) return;
 
         for (Task item : data) {
             LatLng sydney = new LatLng(item.getLatitude(), item.getLongitude());
-            MarkerOptions m = new MarkerOptions().position(sydney).title(item.getTitle());
-            mMap.addMarker(m);
-            //todo add click listener
-        }
 
+            //todo Marker m used in clicklistener to check selected marker
+            Marker m = mMap.addMarker(new MarkerOptions()
+                    .position(sydney)
+                    .title(item.getTitle())
+                    .snippet(item.getDescription()));
+        }
     }
 
     @Override
@@ -84,5 +81,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        //todo add navigate to details activity
+        return false;
     }
 }
