@@ -6,12 +6,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.List;
+
+import ru.byters.bcmapnko.model.Task;
+import ru.byters.bcmapnko.utils.LocalData;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -39,11 +43,31 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        setData();
+    }
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setData();
+    }
+
+    void setData() {
+        if (mMap == null) return;
+
+        mMap.clear();
+
+        List<Task> data = LocalData.readData(this);
+
+        if (data == null) return;
+
+        for (Task item : data) {
+            LatLng sydney = new LatLng(item.getLatitude(), item.getLongitude());
+            MarkerOptions m = new MarkerOptions().position(sydney).title(item.getTitle());
+            mMap.addMarker(m);
+            //todo add click listener
+        }
+
     }
 
     @Override
