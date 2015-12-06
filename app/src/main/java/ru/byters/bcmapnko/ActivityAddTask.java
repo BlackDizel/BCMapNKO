@@ -16,7 +16,7 @@ import ru.byters.bcmapnko.utils.LocalData;
 public class ActivityAddTask extends AppCompatActivity implements View.OnClickListener {
 
     public static int REQUEST_LOCATION = 0;
-    TextView tvLocation, tvTitle, tvDescription;
+    TextView tvLocation, tvTitle, tvDescription, tvContacts;
     private LatLng location;
 
     @Override
@@ -27,6 +27,7 @@ public class ActivityAddTask extends AppCompatActivity implements View.OnClickLi
         tvLocation = (TextView) findViewById(R.id.btSelectLocation);
         tvTitle = (TextView) findViewById(R.id.tvTitle);
         tvDescription = (TextView) findViewById(R.id.tvDescription);
+        tvContacts = (TextView) findViewById(R.id.tvContacts);
 
         tvLocation.setOnClickListener(this);
     }
@@ -45,15 +46,29 @@ public class ActivityAddTask extends AppCompatActivity implements View.OnClickLi
                 LocalData.addData(
                         this,
                         new Task(
-                        tvTitle.getText().toString()
-                        , tvDescription.getText().toString()
-                        , location.latitude
-                        , location.longitude));
+                                tvTitle.getText().toString()
+                                , tvDescription.getText().toString()
+                                , location.latitude
+                                , location.longitude));
                 finish();
             }
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        LocalData.saveContacts(this, tvContacts.getText().toString());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        String contacts = LocalData.getContacts(this);
+        if (contacts != null && !contacts.isEmpty())
+            tvContacts.setText(contacts);
     }
 
     @Override
