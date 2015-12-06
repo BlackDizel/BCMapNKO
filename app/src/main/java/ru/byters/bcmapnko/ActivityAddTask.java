@@ -65,7 +65,7 @@ public class ActivityAddTask extends AppCompatActivity
                                 , location.longitude
                                 , selectedDate));
                 finish();
-            } else Toast.makeText(this, getString(R.string.no_enough_data), Toast.LENGTH_SHORT);
+            } else Toast.makeText(this, getString(R.string.no_enough_data), Toast.LENGTH_SHORT).show();
             return true;
         }
         return super.onOptionsItemSelected(item);
