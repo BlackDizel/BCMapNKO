@@ -9,4 +9,5 @@
     <string name="title_activity_activity_select_location">Выбор места проведения</string>
     <string name="title_activity_activity_add_task">Информация о задаче</string>
     <string name="confirm">Подтвердить</string>
+    <string name="select_date">Выбрать дату</string>
 </resources>

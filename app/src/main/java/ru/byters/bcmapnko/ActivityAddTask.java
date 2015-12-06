@@ -16,7 +16,7 @@ import ru.byters.bcmapnko.utils.LocalData;
 public class ActivityAddTask extends AppCompatActivity implements View.OnClickListener {
 
     public static int REQUEST_LOCATION = 0;
-    TextView tvLocation, tvTitle, tvDescription, tvContacts;
+    TextView tvLocation, tvTitle, tvDescription, tvContacts, tvDate;
     private LatLng location;
 
     @Override
@@ -28,8 +28,10 @@ public class ActivityAddTask extends AppCompatActivity implements View.OnClickLi
         tvTitle = (TextView) findViewById(R.id.tvTitle);
         tvDescription = (TextView) findViewById(R.id.tvDescription);
         tvContacts = (TextView) findViewById(R.id.tvContacts);
+        tvDate = (TextView) findViewById(R.id.btSelectDate);
 
         tvLocation.setOnClickListener(this);
+        tvDate.setOnClickListener(this);
     }
 
     @Override
@@ -84,6 +86,13 @@ public class ActivityAddTask extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
-        startActivityForResult(new Intent(this, ActivitySelectLocation.class), REQUEST_LOCATION);
+        switch (v.getId()) {
+            case R.id.btSelectLocation:
+            startActivityForResult(new Intent(this, ActivitySelectLocation.class), REQUEST_LOCATION);
+                break;
+            case R.id.btSelectDate:
+                //todo select date
+                break;
+        }
     }
 }
