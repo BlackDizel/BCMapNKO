@@ -13,6 +13,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.Calendar;
 import java.util.List;
 
 import ru.byters.bcmapnko.model.Task;
@@ -56,7 +57,12 @@ public class MapsActivity extends AppCompatActivity
 
         if (data == null) return;
 
+        Calendar currentDate = Calendar.getInstance();
         for (Task item : data) {
+
+            if (item.getCalendar().before(currentDate))
+                continue;
+
             LatLng sydney = new LatLng(item.getLatitude(), item.getLongitude());
 
             //todo Marker m used in clicklistener to check selected marker
