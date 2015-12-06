@@ -14,7 +14,6 @@ import android.widget.Toast;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.Calendar;
-import java.util.Locale;
 
 import ru.byters.bcmapnko.model.Task;
 import ru.byters.bcmapnko.utils.LocalData;
@@ -55,6 +54,7 @@ public class ActivityAddTask extends AppCompatActivity
             if (location != null
                     && tvTitle.getText() != null
                     && tvDescription.getText() != null
+                    && tvContacts.getText() != null
                     && selectedDate != null) {
                 LocalData.addData(
                         this,
@@ -63,9 +63,11 @@ public class ActivityAddTask extends AppCompatActivity
                                 , tvDescription.getText().toString()
                                 , location.latitude
                                 , location.longitude
-                                , selectedDate));
+                                , selectedDate
+                                , tvContacts.getText().toString()));
                 finish();
-            } else Toast.makeText(this, getString(R.string.no_enough_data), Toast.LENGTH_SHORT).show();
+            } else
+                Toast.makeText(this, getString(R.string.no_enough_data), Toast.LENGTH_SHORT).show();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -113,9 +115,6 @@ public class ActivityAddTask extends AppCompatActivity
     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
         selectedDate = Calendar.getInstance();
         selectedDate.set(year, monthOfYear, dayOfMonth);
-        tvDate.setText(String.format("%d %s %d"
-                , dayOfMonth
-                , selectedDate.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault())
-                , year));
+        tvDate.setText(Task.getDisplayedDate(selectedDate));
     }
 }
