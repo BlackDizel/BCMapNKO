@@ -18,6 +18,7 @@
         android:layout_gravity="bottom"
         android:background="@color/colorAccent"
         android:text="@string/confirm"
-        android:textColor="@color/colorAccentText" />
+        android:textColor="@color/colorAccentText"
+        android:visibility="gone" />
 
 </merge>

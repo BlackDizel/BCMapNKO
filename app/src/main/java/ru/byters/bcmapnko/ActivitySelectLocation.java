@@ -71,6 +71,9 @@ public class ActivitySelectLocation extends FragmentActivity
             List<Address> addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
             coordinates = latLng;
 
+            if (addresses == null || addresses.size() == 0 || addresses.get(0).getMaxAddressLineIndex() < 0)
+                return;
+
             String address = "";
             for (int i = 0; i < addresses.get(0).getMaxAddressLineIndex(); ++i)
                 address += addresses.get(0).getAddressLine(i) + " ";
@@ -79,6 +82,8 @@ public class ActivitySelectLocation extends FragmentActivity
             pickButton.setVisibility(View.VISIBLE);
 
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (IndexOutOfBoundsException e) {
             e.printStackTrace();
         }
     }
