@@ -10,4 +10,5 @@
     <string name="title_activity_activity_add_task">Информация о задаче</string>
     <string name="confirm">Подтвердить</string>
     <string name="select_date">Выбрать дату</string>
+    <string name="no_enough_data">Введите недостающую информацию</string>
 </resources>
