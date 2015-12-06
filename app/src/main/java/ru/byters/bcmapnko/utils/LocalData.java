@@ -1,6 +1,7 @@
 package ru.byters.bcmapnko.utils;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -14,13 +15,15 @@ import java.util.List;
 import ru.byters.bcmapnko.model.Task;
 
 public class LocalData {
-    private final static String fileData = "data_tasks";
+    private final static String FILE_DATA = "data_tasks";
+    private final static String PREFERENCES = "prefs";
+    private final static String CONTACTS = "contacts";
 
     public static void saveData(Context context, List<Task> items) {
 
         ObjectOutputStream objectOut = null;
         try {
-            FileOutputStream fileOut = context.openFileOutput(fileData, Context.MODE_PRIVATE);
+            FileOutputStream fileOut = context.openFileOutput(FILE_DATA, Context.MODE_PRIVATE);
             objectOut = new ObjectOutputStream(fileOut);
             objectOut.writeObject(items);
             fileOut.getFD().sync();
@@ -56,13 +59,13 @@ public class LocalData {
     }
 
     public static List<Task> readData(Context context) {
-        if (!isFileExist(context, fileData))
+        if (!isFileExist(context, FILE_DATA))
             return null;
 
         ObjectInputStream objectIn = null;
         try {
 
-            FileInputStream fileIn = context.getApplicationContext().openFileInput(fileData);
+            FileInputStream fileIn = context.getApplicationContext().openFileInput(FILE_DATA);
             objectIn = new ObjectInputStream(fileIn);
             return (List<Task>) objectIn.readObject();
 
@@ -83,6 +86,20 @@ public class LocalData {
                 }
             }
         }
+        return null;
+    }
+
+    public static void saveContacts(Context context, String contacts) {
+        getPreferences(context).edit().putString(CONTACTS, contacts).commit();
+    }
+
+    private static SharedPreferences getPreferences(Context context) {
+        return context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
+    }
+
+    public static String getContacts(Context context) {
+        if (getPreferences(context).contains(CONTACTS))
+            return getPreferences(context).getString(CONTACTS, null);
         return null;
     }
 }
